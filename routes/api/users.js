@@ -9,14 +9,10 @@ const keys = require('../../config/keys')
 // Load User Model
 const User = require('../../models/User');
 
-// @route   GET api/users/test
-// @desc    Tests Users Route
-// @access  Public
+// GET api/users/test (Public)
 router.get('/test', (req, res) => res.json({msg: 'Users Endpoint Ok'}));
 
-// @route   GET api/users/register
-// @desc    Register New User
-// @access  Public
+// GET api/users/register (Public)
 router.post('/register', (req, res) => {
   // Find User By Email
   User.findOne({ email: req.body.email })
@@ -56,9 +52,8 @@ router.post('/register', (req, res) => {
     })
 });
 
-// @route   GET api/users/login
-// @desc    Login User, Return JWT Token
-// @access  Public
+// GET api/users/login (Public)
+
 router.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -91,9 +86,7 @@ router.post('/login', (req, res) => {
     })
 });
 
-// @route   GET api/users/current
-// @desc    Return Current User
-// @access  Private
+// GET api/users/current (Private)
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   // res.json({ msg: 'Success' })
   // res.json(req.user);
@@ -101,6 +94,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
     id: req.user.id,
     name: req.user.name,
     email: req.user.email,
+    avatar: req.user.avatar,
   })
 });
 

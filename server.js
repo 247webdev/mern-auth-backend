@@ -4,13 +4,19 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const port = process.env.PORT || 5000;
 
-// Routes
+// Require Routes
 const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
-const posts = require('./routes/api/posts');
 
 // Init App
 const app = express();
+
+// Cors Middleware
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+  next();
+});
 
 // BodyParser Middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -35,8 +41,6 @@ require('./config/passport')(passport);
 
 // Use Routes
 app.use('/api/users', users);
-app.use('/api/profile', profile);
-app.use('/api/posts', posts);
 
 // Start Server
 app.listen(port, () => console.log(`Servers running on port ${port}`));
